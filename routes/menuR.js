@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/authChecker.js";
-import { createMenu, deleteMenu, editMenu, listMenu } from "../controllers/menu/menuC.js";
+import { createMenu, deleteMenu, editMenu, listMenu } from "../controllers/menuC.js";
 
 const routes = Router();
 

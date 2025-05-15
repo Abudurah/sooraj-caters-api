@@ -1,7 +1,7 @@
-import { Tokens } from "../../models/Token.js";
-import { Users } from "../../models/Users.js";
-import { TokenService } from "../../services/tokenS.js";
-import { passError } from "../../utils/errorHandler.js";
+import { Tokens } from "../models/Token.js";
+import { Users } from "../models/Users.js";
+import { TokenService } from "../services/tokenS.js";
+import { passError } from "../utils/errorHandler.js";
 
 export const login = async (req, res, next) => {
   const tokenS = new TokenService();

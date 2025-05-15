@@ -5,7 +5,7 @@ import {
   deleteDetails,
   editDetails,
   listDetails,
-} from "../controllers/details/detailsC.js";
+} from "../controllers/detailsC.js";
 
 const routes = Router();
 

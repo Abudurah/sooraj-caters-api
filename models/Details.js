@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const newSchema = mongoose.Schema(
@@ -18,13 +19,13 @@ const newSchema = mongoose.Schema(
             type: String,
             required: true,
           },
+          desc: {
+            type: String,
+          },
           type: {
             type: String,
             required: true,
             enum: ["H1", "H2", "H3", "H4", "H5", "ITEM"],
-          },
-          desc: {
-            type: String,
           },
         },
       ],

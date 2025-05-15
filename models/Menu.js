@@ -41,6 +41,7 @@ const menuSchema = mongoose.Schema(
           ratePerHead: { type: Number },
         },
       ],
+      default:[]
     },
     details: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Details" }],

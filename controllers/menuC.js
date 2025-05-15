@@ -1,6 +1,6 @@
-import { Menu } from "../../models/Menu.js";
-import { checkPermission } from "../../utils/checkPermission.js";
-import { passError } from "../../utils/errorHandler.js";
+import { Menu } from "../models/Menu.js";
+import { checkPermission } from "../utils/checkPermission.js";
+import { passError } from "../utils/errorHandler.js";
 
 export const createMenu = async (req, res, next) => {
   try {
@@ -11,26 +11,8 @@ export const createMenu = async (req, res, next) => {
       venue,
       menuDate,
       price,
-      lastPageDescription,
-      pageOptions,
-      details,
+      lastPageDescription
     } = req.body || {};
-
-    if (pageOptions) {
-      if (typeof pageOptions == "string") {
-        throw [422, "Page options list must be an array of options."];
-      }
-      if (pageOptions?.length == 0)
-        throw [422, "Atleast one option is needed to create the list"];
-    }
-
-    if (details) {
-      if (typeof details == "string") {
-        throw [422, "Page options list must be an array of options."];
-      }
-      if (details?.length == 0)
-        throw [422, "Atleast one option is needed to create the list"];
-    }
 
     const menu = new Menu({
       parentId: req.user.id,
@@ -40,9 +22,7 @@ export const createMenu = async (req, res, next) => {
       venue,
       menuDate,
       price,
-      lastPageDescription,
-      pageOptions,
-      details,
+      lastPageDescription
     });
 
     const error = menu.validateSync();
@@ -86,8 +66,8 @@ export const editMenu = async (req, res, next) => {
       if (typeof details == "string") {
         throw [422, "Page options list must be an array of options."];
       }
-      if (details?.length == 0)
-        throw [422, "Atleast one option is needed to create the list"];
+      // if (details?.length == 0)
+      //   throw [422, "Atleast one option is needed to create the list"];
     }
 
     const menu = await checkPermission(Menu, id, req.user.id);
@@ -125,7 +105,6 @@ export const editMenu = async (req, res, next) => {
 export const listMenu = async (req, res, next) => {
   try {
     let menuParams = req.query;
-    console.log(menuParams);
     const menu = await Menu.find({
       parentId: req.user.id,
       ...menuParams,
@@ -135,7 +114,7 @@ export const listMenu = async (req, res, next) => {
         menu.map((data) => ({
           ...data._doc,
           details: data.details.map((x) => ({
-            id: x._id,
+            _id: x._id,
             detailName: x.detailName,
             details: x.detailList,
           })),

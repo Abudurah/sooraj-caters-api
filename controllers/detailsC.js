@@ -1,6 +1,6 @@
-import { Details } from "../../models/Details.js";
-import { checkPermission } from "../../utils/checkPermission.js";
-import { passError } from "../../utils/errorHandler.js";
+import { Details } from "../models/Details.js";
+import { checkPermission } from "../utils/checkPermission.js";
+import { passError } from "../utils/errorHandler.js";
 
 export const createDetails = async (req, res, next) => {
   try {
@@ -67,9 +67,26 @@ export const editDetails = async (req, res, next) => {
 
 export const listDetails = async (req, res, next) => {
   try {
+    const { excludeIds } = req.query || {};
+
+    let params = {};
+
+    if (excludeIds?.split(",").length > 0 && excludeIds?.length > 0) {
+      params._id = { $nin: excludeIds.split(",") };
+    }
+
     const details = await Details.find({
       parentId: req.user.id,
-    });
+      ...params,
+    }).then((data) =>
+      data.map((detail) => {
+        return {
+          ...detail._doc,
+          details: detail.detailList,
+          detailList: undefined,
+        };
+      })
+    );
 
     res.status(200).json({
       success: true,

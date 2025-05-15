@@ -1,6 +1,6 @@
-import { Options } from "../../models/Options.js";
-import { checkPermission } from "../../utils/checkPermission.js";
-import { passError } from "../../utils/errorHandler.js";
+import { Options } from "../models/Options.js";
+import { checkPermission } from "../utils/checkPermission.js";
+import { passError } from "../utils/errorHandler.js";
 
 export const createOptions = async (req, res, next) => {
   try {

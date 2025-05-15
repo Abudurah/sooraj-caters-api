@@ -6,7 +6,6 @@ dotenv.config();
 
 //route imports
 import AuthR from "./routes/authR.js";
-import UserR from "./routes/userR.js";
 import OptionsR from "./routes/optoinsR.js";
 import DetailsR from "./routes/detailsR.js";
 import MenuR from "./routes/menuR.js";
@@ -27,14 +26,13 @@ app.use(express.json());
 
 // app routes
 app.use("/api/v0.1/", AuthR);
-app.use("/api/v0.1/user", UserR);
 app.use("/api/v0.1/options", OptionsR);
 app.use("/api/v0.1/details", DetailsR);
 app.use("/api/v0.1/menu", MenuR);
 
 //error throwing middleware
 app.use((err, req, res, next) => {
-  console.log(err);
+  // console.log(err);
   if (HOST !== "DEVELOPMENT") delete err.stack;
   res.status(err?.status || 500).json(err);
 });

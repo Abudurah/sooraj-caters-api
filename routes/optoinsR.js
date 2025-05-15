@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { checkAuth } from "../middlewares/authChecker.js";
-import { createOptions, deleteOptions, editOptions, listOptions } from "../controllers/detailOptions/optionC.js";
+import { createOptions, deleteOptions, editOptions, listOptions } from "../controllers/optionC.js";
 
 const routes = Router();
 
