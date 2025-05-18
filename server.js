@@ -21,7 +21,14 @@ const connect = async () => {
 };
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://sooraj-caters.vercel.app/",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+);
 app.use(express.json());
 
 // app routes

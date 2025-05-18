@@ -14,6 +14,8 @@ export const login = async (req, res, next) => {
       $or: [{ userName: userName }, { email: userName }],
     });
 
+    console.log(user)
+
     if (!user) throw [404, "User not found !"];
     else if (user.userRole === "FGHW" && !user.isAdminAuthorized)
       throw [
@@ -42,6 +44,7 @@ export const login = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     const token = req?.headers?.authorization;
+    console.log(token)
     if (!token) throw [401, "You are not logged in !"];
 
     const deletedToken = Tokens.findOneAndDelete({ token });
