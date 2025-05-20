@@ -6,7 +6,7 @@ import {
   editDetails,
   listDetails,
 } from "../controllers/detailsC.js";
-import { tcreateOptions } from "../controllers/optionC.js";
+// import { tcreateOptions } from "../controllers/optionC.js";
 
 const routes = Router();
 
