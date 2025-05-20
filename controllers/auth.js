@@ -14,8 +14,6 @@ export const login = async (req, res, next) => {
       $or: [{ userName: userName }, { email: userName }],
     });
 
-    console.log(user)
-
     if (!user) throw [404, "User not found !"];
     else if (user.userRole === "FGHW" && !user.isAdminAuthorized)
       throw [

@@ -1,6 +1,10 @@
 import { Menu } from "../models/Menu.js";
 import { checkPermission } from "../utils/checkPermission.js";
 import { passError } from "../utils/errorHandler.js";
+import {
+  cancelMenuNotification,
+  scheduleMenuNotification,
+} from "../utils/notificationScheduler.js";
 
 export const createMenu = async (req, res, next) => {
   try {
@@ -11,7 +15,7 @@ export const createMenu = async (req, res, next) => {
       venue,
       menuDate,
       price,
-      lastPageDescription
+      lastPageDescription,
     } = req.body || {};
 
     const menu = new Menu({
@@ -22,12 +26,14 @@ export const createMenu = async (req, res, next) => {
       venue,
       menuDate,
       price,
-      lastPageDescription
+      lastPageDescription,
     });
 
     const error = menu.validateSync();
     if (error) throw error;
     else await menu.save();
+
+    await scheduleMenuNotification(menu);
 
     res.status(200).json({
       success: true,
@@ -52,10 +58,23 @@ export const editMenu = async (req, res, next) => {
       pageOptions,
       details,
     } = req.body || {};
+
+    const options = {
+      menuName,
+      menuDescription,
+      clientName,
+      venue,
+      menuDate,
+      price,
+      lastPageDescription,
+      pageOptions,
+      details,
+    };
+
     const { id } = req.params || {};
 
     if (pageOptions) {
-      if (typeof pageOptions == "string") {
+      if (!Array.isArray(pageOptions)) {
         throw [422, "Page options list must be an array of options."];
       }
       if (pageOptions?.length == 0)
@@ -63,31 +82,24 @@ export const editMenu = async (req, res, next) => {
     }
 
     if (details) {
-      if (typeof details == "string") {
+      if (!Array.isArray(details)) {
         throw [422, "Page options list must be an array of options."];
       }
-      // if (details?.length == 0)
-      //   throw [422, "Atleast one option is needed to create the list"];
     }
 
     const menu = await checkPermission(Menu, id, req.user.id);
 
     if (!menu) throw [404, "The selected menu is not editable."];
 
+    if (menuDate) {
+      await scheduleMenuNotification(menu);
+      options.notified = false;
+    }
+
     const updatedMenu = await Menu.findByIdAndUpdate(
       id,
       {
-        $set: {
-          menuName,
-          menuDescription,
-          clientName,
-          venue,
-          menuDate,
-          price,
-          lastPageDescription,
-          pageOptions,
-          details,
-        },
+        $set: options,
       },
       { new: true }
     );

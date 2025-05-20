@@ -19,7 +19,7 @@ const menuSchema = mongoose.Schema(
     },
     venue: {
       type: String,
-      required: true, 
+      required: true,
     },
     menuDate: {
       type: Date,
@@ -31,6 +31,13 @@ const menuSchema = mongoose.Schema(
     lastPageDescription: {
       type: String,
     },
+    jobId: {
+      type: String,
+    },
+    notified: {
+      type: Boolean,
+      default: false,
+    },
     pageOptions: {
       type: [
         {
@@ -41,7 +48,7 @@ const menuSchema = mongoose.Schema(
           ratePerHead: { type: Number },
         },
       ],
-      default:[]
+      default: [],
     },
     details: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Details" }],

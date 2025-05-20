@@ -4,7 +4,6 @@ export const checkPermission = async (model, id, parentId, isSuperAdmin) => {
     if (id?.toString() === parentId?.toString() || isSuperAdmin) {
       modelParams = { _id: id?.toString() };
     }
-    console.log(modelParams);
     const data = await model.findOne(modelParams);
 
     return data ? data : false;

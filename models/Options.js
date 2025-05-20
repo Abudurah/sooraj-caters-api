@@ -10,6 +10,7 @@ const newSchema = mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     optionType: {
       type: String,
