@@ -9,7 +9,7 @@ const activeJobs = new Map();
 
 async function scheduleMenuNotification(menu) {
   // Cancel existing job if this is an update
-
+  // console.log(activeJobs)
   if (activeJobs.has(menu._id.toString())) {
     activeJobs.get(menu._id.toString()).cancel();
     activeJobs.delete(menu._id.toString());
@@ -22,13 +22,15 @@ async function scheduleMenuNotification(menu) {
     throw new Error("Invalid date string");
   }
 
-  let notifyDate = date.setDate(date.getDate() - 2);
+  date.setDate(date.getDate() - 2);
+  let notifyDate = date;
+  notifyDate.setHours(6, 0, 0, 0);
 
   const now = new Date();
   now.setDate(now.getDate() - 2);
   if (notifyDate < now) return;
-  console.log(dayjs(notifyDate).format("DD-MM-YYYY"));
-  const job = schedule.scheduleJob(new Date(notifyDate), async () => {
+
+  const job = schedule.scheduleJob(notifyDate, async () => {
     try {
       console.log("job running");
       const freshMenu = await Menu.findById(menu._id).populate("parentId");
@@ -37,10 +39,8 @@ async function scheduleMenuNotification(menu) {
       if (freshMenu.parentId.pushSubscription) {
         await sendPushNotification(
           freshMenu.parentId.pushSubscription,
-          JSON.stringify({
-            title: `Upcoming Function: ${freshMenu.menuName}`,
-            body: `Don't forget! You have a function in 2 days (${freshMenu.menuDate.toLocaleDateString()})`,
-          })
+          `Upcoming Function: ${freshMenu.menuName}
+coming in 2 days (${dayjs(freshMenu.menuDate).format("DD-MM-YYYY")})`
         );
       }
       freshMenu.notified = true;
@@ -51,6 +51,8 @@ async function scheduleMenuNotification(menu) {
       activeJobs.delete(menu._id.toString());
     }
   });
+
+  console.log(job?.name, "asdf");
 
   // Store job reference
   if (job) activeJobs.set(menu._id.toString(), job);
