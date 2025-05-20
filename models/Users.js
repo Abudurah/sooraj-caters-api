@@ -46,6 +46,9 @@ const usersSchema = mongoose.Schema(
     mailPort: {
       type: String,
     },
+    pushSubscription:{
+      type: Object
+    }
   },
   { timestamps: true }
 );
@@ -65,7 +68,6 @@ usersSchema.pre("save", async function (next) {
 
 usersSchema.pre("findOneAndUpdate", async function (next) {
   const update = this.getUpdate();
-  console.log(update);
   if (update?.$set?.password) {
     try {
       const salt = await bcrypt.genSalt(10);
