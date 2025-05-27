@@ -11,7 +11,10 @@ export const login = async (req, res, next) => {
     if (!userName) throw [422, "Please provide a userName or Email"];
 
     const user = await Users.findOne({
-      $or: [{ userName: userName }, { email: userName }],
+      $or: [
+        { userName: userName?.toLowerCase() },
+        { email: userName?.toLowerCase() },
+      ],
     });
 
     if (!user) throw [404, "User not found !"];
@@ -21,7 +24,7 @@ export const login = async (req, res, next) => {
         "Your account havn't been authorized, You can login only after admin authorizes the account !",
       ];
 
-    const isPassword = await user.comparePassword(password);
+    const isPassword = await user.comparePassword(password?.toLowerCase());
     if (!isPassword) throw [422, "Incorrect email or password"];
 
     const token = await tokenS.createToken(user.id);
@@ -42,7 +45,7 @@ export const login = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     const token = req?.headers?.authorization;
-    console.log(token)
+    console.log(token);
     if (!token) throw [401, "You are not logged in !"];
 
     const deletedToken = Tokens.findOneAndDelete({ token });

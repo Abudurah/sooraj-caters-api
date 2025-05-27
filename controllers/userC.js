@@ -7,9 +7,9 @@ export const signup = async (req, res, next) => {
     var { email, userName, password, phone } = req.body || {};
 
     const user = new Users({
-      email,
-      userName,
-      password,
+      email: email?.toLowerCase(),
+      userName: userName?.toLowerCase(),
+      password: password?.toLowerCase(),
       phone,
       userRole: "FGHW",
       parentId: "FIRKGGLMNS",
@@ -36,10 +36,10 @@ export const editUser = async (req, res, next) => {
 
     await Users.findByIdAndUpdate(req.user.id, {
       $set: {
-        userName,
-        email,
+        email: email?.toLowerCase(),
+        userName: userName?.toLowerCase(),
+        password: password?.toLowerCase(),
         phone,
-        password,
       },
     });
 
