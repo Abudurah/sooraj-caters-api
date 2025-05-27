@@ -93,7 +93,7 @@ export const deleteOptions = async (req, res, next) => {
 //   try {
 //     // Create new Product instances (not saved yet)
 //     const parentId = req.user.id;
-//     const options = data.map(
+//     const options = await data.map(
 //       (x) => new Options({ name: x, parentId: parentId })
 //     );
 
@@ -102,6 +102,9 @@ export const deleteOptions = async (req, res, next) => {
 //       await option.validate(); // triggers validation
 //     }
 
+//     console.log(options.length,data.length);
+//     // throw [422, "adf"];
+
 //     // Use bulkSave to create all new options
 //     const result = await Options.bulkSave(options);
 
@@ -109,6 +112,29 @@ export const deleteOptions = async (req, res, next) => {
 //       success: true,
 //       message: "Options created",
 //       data: result,
+//     });
+//   } catch (err) {
+//     next(passError(err));
+//   }
+// };
+
+// export const deleteAllOptions = async (req, res, next) => {
+//   try {
+//     const allOptionIds = await Options.find();
+
+//     var optionIds = allOptionIds.map((x) => x._id);
+
+//     console.log(optionIds);
+
+//     // throw [422, "asdf"];
+
+//     // if (!option) throw [404, "The selected option is not editable."];
+
+//     await Options.deleteMany({ _id: { $in: optionIds } });
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Option deleted",
 //     });
 //   } catch (err) {
 //     next(passError(err));
