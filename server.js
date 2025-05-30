@@ -31,7 +31,7 @@ const connect = async () => {
 // Middleware
 app.use(
   cors({
-    origin: ["https://sooraj-neon.vercel.app", "http://localhost:5173"],
+    origin: ["https://sooraj-neon.vercel.app", "http://localhost:5174"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 204,

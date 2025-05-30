@@ -38,6 +38,9 @@ const menuSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    pageBreak:{
+      type: Array
+    },
     pageOptions: {
       type: [
         {
