@@ -16,6 +16,7 @@ export const createMenu = async (req, res, next) => {
       menuDate,
       price,
       pageBreak,
+      status,
       lastPageDescription,
     } = req.body || {};
 
@@ -28,6 +29,7 @@ export const createMenu = async (req, res, next) => {
       menuDate,
       price,
       pageBreak,
+      status,
       lastPageDescription,
     });
 
@@ -59,6 +61,7 @@ export const editMenu = async (req, res, next) => {
       lastPageDescription,
       pageOptions,
       pageBreak,
+      status,
       details,
     } = req.body || {};
 
@@ -72,6 +75,7 @@ export const editMenu = async (req, res, next) => {
       lastPageDescription,
       pageOptions,
       pageBreak,
+      status,
       details,
     };
 

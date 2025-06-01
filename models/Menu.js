@@ -41,6 +41,11 @@ const menuSchema = mongoose.Schema(
     pageBreak:{
       type: Array
     },
+    status:{
+      type: String,
+      enum: ["CONFIRMED", "COMPLETED", "UNCONFIRMED", "CANCELLED"],
+      default: "UNCONFIRMED",
+    },
     pageOptions: {
       type: [
         {
