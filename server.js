@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-import webpush from 'web-push'
+import webpush from "web-push";
 dotenv.config();
 
 //route imports
@@ -11,6 +11,11 @@ import OptionsR from "./routes/optoinsR.js";
 import DetailsR from "./routes/detailsR.js";
 import MenuR from "./routes/menuR.js";
 import { initializeScheduler } from "./utils/notificationScheduler.js";
+import helmet from "helmet";
+import compression from "compression";
+import dns from "node:dns";
+
+dns.setDefaultResultOrder("ipv4first");
 
 const app = express();
 const PORT = 3000;
@@ -25,13 +30,17 @@ webpush.setVapidDetails(`mailto:${MAIL}`, PUBLIC_KEY, PRIVATE_KEY);
 const connect = async () => {
   await mongoose.connect(MONGO_URI);
   console.log("connected to database");
-  initializeScheduler()
+  initializeScheduler();
 };
 
 // Middleware
+
+app.use(helmet());
+app.use(compression());
+
 app.use(
   cors({
-    origin: ["https://sooraj-neon.vercel.app", "http://localhost:5174"],
+    origin: ["https://sooraj-neon.vercel.app", "http://localhost:5173"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 204,
