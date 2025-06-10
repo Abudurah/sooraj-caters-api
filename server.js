@@ -24,6 +24,7 @@ const HOST = process.env.APP;
 const PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY;
 const PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY;
 const MAIL = process.env.VAPID_EMAIL;
+const CORS_ORIGIN = process.env.CORS_ORIGIN;
 
 webpush.setVapidDetails(`mailto:${MAIL}`, PUBLIC_KEY, PRIVATE_KEY);
 
@@ -35,18 +36,17 @@ const connect = async () => {
 
 // Middleware
 
-app.use(helmet());
-app.use(compression());
-
 app.use(
   cors({
-    origin: ["https://sooraj-neon.vercel.app", "http://localhost:5173"],
+    origin: CORS_ORIGIN?.split("&"),
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 204,
   })
 );
 app.use(express.json());
+app.use(helmet());
+app.use(compression());
 
 // app routes
 app.use("/api/v0.1/", AuthR);
