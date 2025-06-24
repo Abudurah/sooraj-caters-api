@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 
 const usersSchema = mongoose.Schema(
   {
@@ -20,6 +20,17 @@ const usersSchema = mongoose.Schema(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         "Please provide a valid email !",
       ],
+    },
+    emailPassword: {
+      type: String,
+    },
+    emailSmtp: {
+      type: String,
+      default: 'smtp.gmail.com',
+    },
+    emailPort: {
+      type: Number,
+      default: 587,
     },
     phone: {
       type: String,
@@ -46,9 +57,9 @@ const usersSchema = mongoose.Schema(
     mailPort: {
       type: String,
     },
-    pushSubscription:{
-      type: Object
-    }
+    pushSubscription: {
+      type: Object,
+    },
   },
   { timestamps: true }
 );
