@@ -30,9 +30,43 @@ export const signup = async (req, res, next) => {
   }
 };
 
+export const getLogedInUserDetails = async (req, res, next) => {
+  try {
+    const { user } = req;
+
+    if (!user) throw [404, "No details found, please logout and login again."];
+
+    const { emailSmtp, emailPort, emailPassword, _id, userName, email, phone } =
+      user._doc;
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        emailSmtp,
+        emailPort,
+        _id,
+        userName,
+        email,
+        phone,
+        emailPassword,
+      },
+    });
+  } catch (err) {
+    next(passError(err));
+  }
+};
+
 export const editUser = async (req, res, next) => {
   try {
-    const { userName, email, phone, password } = req.body;
+    const {
+      userName,
+      email,
+      phone,
+      password,
+      emailPassword,
+      emailPort,
+      emailSmtp,
+    } = req.body;
 
     await Users.findByIdAndUpdate(req.user.id, {
       $set: {
@@ -40,6 +74,9 @@ export const editUser = async (req, res, next) => {
         userName: userName?.toLowerCase(),
         password: password?.toLowerCase(),
         phone,
+        emailPassword,
+        emailPort,
+        emailSmtp,
       },
     });
 

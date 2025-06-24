@@ -28,6 +28,8 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN;
 
 webpush.setVapidDetails(`mailto:${MAIL}`, PUBLIC_KEY, PRIVATE_KEY);
 
+console.log(CORS_ORIGIN.split("&"));
+
 const connect = async () => {
   await mongoose.connect(MONGO_URI);
   console.log("connected to database");
@@ -56,7 +58,7 @@ app.use("/api/v0.1/menu", MenuR);
 
 //error throwing middleware
 app.use((err, req, res, next) => {
-  // console.log(err);
+  console.log(err);
   if (HOST !== "DEVELOPMENT") delete err.stack;
   res.status(err?.status || 500).json(err);
 });

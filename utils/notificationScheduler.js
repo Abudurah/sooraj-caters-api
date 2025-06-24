@@ -3,6 +3,7 @@ import schedule from "node-schedule";
 import webpush from "web-push";
 import { Menu } from "../models/Menu.js";
 import dayjs from "dayjs";
+import { mailEventNotification } from "./mail/mailEventNotification.js";
 
 // Store active jobs in memory
 const activeJobs = new Map();
@@ -42,6 +43,11 @@ async function scheduleMenuNotification(menu) {
           `Upcoming Function: ${freshMenu.menuName}
 coming in 2 days (${dayjs(freshMenu.menuDate).format("DD-MM-YYYY")})`
         );
+
+        mailEventNotification(
+          freshMenu.parentId._id,
+          freshMenu.menuDate
+        );
       }
       freshMenu.notified = true;
       await freshMenu.save();
@@ -52,7 +58,7 @@ coming in 2 days (${dayjs(freshMenu.menuDate).format("DD-MM-YYYY")})`
     }
   });
 
-  console.log(job?.name, "asdf");
+  console.log(job?.name, "scheduled for", notifyDate);
 
   // Store job reference
   if (job) activeJobs.set(menu._id.toString(), job);
