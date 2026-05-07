@@ -31,6 +31,11 @@ const menuSchema = mongoose.Schema(
     lastPageDescription: {
       type: String,
     },
+    signatureSettings: {
+      showCompanySignature: { type: Boolean, default: false },
+      companySignatureImage: { type: String },
+      showCustomerSignature: { type: Boolean, default: false },
+    },
     jobId: {
       type: String,
     },

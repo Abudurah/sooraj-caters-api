@@ -18,6 +18,7 @@ export const createMenu = async (req, res, next) => {
       pageBreak,
       status,
       lastPageDescription,
+      signatureSettings,
     } = req.body || {};
 
     const menu = new Menu({
@@ -31,6 +32,7 @@ export const createMenu = async (req, res, next) => {
       pageBreak,
       status,
       lastPageDescription,
+      signatureSettings,
     });
 
     const error = menu.validateSync();
@@ -62,6 +64,7 @@ export const editMenu = async (req, res, next) => {
       pageOptions,
       pageBreak,
       status,
+      signatureSettings,
       details,
     } = req.body || {};
 
@@ -76,6 +79,7 @@ export const editMenu = async (req, res, next) => {
       pageOptions,
       pageBreak,
       status,
+      signatureSettings,
       details,
     };
 
