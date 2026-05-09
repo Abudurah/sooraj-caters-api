@@ -10,6 +10,7 @@ import AuthR from "./routes/authR.js";
 import OptionsR from "./routes/optoinsR.js";
 import DetailsR from "./routes/detailsR.js";
 import MenuR from "./routes/menuR.js";
+import DocumentR from "./routes/documentR.js";
 import { initializeScheduler } from "./utils/notificationScheduler.js";
 import helmet from "helmet";
 import compression from "compression";
@@ -53,6 +54,7 @@ app.use("/api/v0.1/", AuthR);
 app.use("/api/v0.1/options", OptionsR);
 app.use("/api/v0.1/details", DetailsR);
 app.use("/api/v0.1/menu", MenuR);
+app.use("/api/v0.1/documents", DocumentR);
 
 //error throwing middleware
 app.use((err, req, res, next) => {
